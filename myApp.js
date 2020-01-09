@@ -31,7 +31,7 @@ const helmet = require('helmet');
 
 // Use `helmet.hidePoweredBy()``
 
-app.use(helmet.hidePoweredBy({action: 'DENY'}));
+app.use(helmet.hidePoweredBy());
 
 /** 3) Mitigate the risk of clickjacking - `helmet.frameguard()` */
 
@@ -46,7 +46,7 @@ app.use(helmet.hidePoweredBy({action: 'DENY'}));
 // We don't need our app to be framed, so you should use `helmet.frameguard()`
 // passing to it the configuration object `{action: 'deny'}`
 
- app.use(helmet.frameguard());
+ app.use(helmet.frameguard({action: 'deny'}));
 
 /** 4) Mitigate the risk of XSS - `helmet.xssFilter()` */
 
@@ -69,7 +69,7 @@ app.use(helmet.hidePoweredBy({action: 'DENY'}));
 
 // Use `helmet.xssFilter()`
 
-
+app.use(helmet.xssFilter({}));
 
 /** 5) Avoid inferring the response MIME type - `helmet.noSniff()` */
 
@@ -82,7 +82,7 @@ app.use(helmet.hidePoweredBy({action: 'DENY'}));
 
 // Use `helmet.noSniff()`
 
-
+app.use(helmet.noSniff());
 
 /** 6) Prevent IE from opening *untrusted* HTML - `helmet.ieNoOpen()` */
 
@@ -95,7 +95,7 @@ app.use(helmet.hidePoweredBy({action: 'DENY'}));
 
 // Use `helmet.ieNoOpen()`
 
-
+app.use(helmet.ieNoOpen());
 
 /**  7) Ask browsers to access your site via HTTPS only - `helmet.hsts()` */
 
@@ -114,6 +114,9 @@ app.use(helmet.hidePoweredBy({action: 'DENY'}));
 // policy we will intercept and restore the header, after inspecting it for testing.
 
 var ninetyDaysInSeconds = 90*24*60*60;
+var ninetyDaysInMilliseconds = 90*24*60*60*1000;
+
+app.use(helmet.hsts({ maxAge: ninetyDaysInMilliseconds, force: true }));
 
 
 //**Note**:
@@ -133,7 +136,7 @@ var ninetyDaysInSeconds = 90*24*60*60;
 
 // Use `helmet.dnsPrefetchControl()`
 
-
+app.use(helmet.dnsPrefetchControl());
 
 /** 9) Disable Client-Side Caching - `helmet.noCache()` */
 
@@ -145,7 +148,7 @@ var ninetyDaysInSeconds = 90*24*60*60;
 
 // Use helmet.noCache()
 
-
+app.use(helmet.noCache());
 
 /** 10) Content Security Policy - `helmet.contentSecurityPolicy()` */
 
@@ -175,7 +178,7 @@ var ninetyDaysInSeconds = 90*24*60*60;
 // in the `"'self'"` keyword, the single quotes are part of the keyword itself, 
 // so it needs to be enclosed in **double quotes** to be working.
 
-
+app.use(helmet.contentSecurityPolicy({ directives: { defaultSrc: ["'self'"], scriptSrc: ["'self'", "trusted-cdn.com"] }} ))
 
 /** TIP: */ 
 

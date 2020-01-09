@@ -529,5 +529,5 @@ registry: 'https://registry.npmjs.org/'
 shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
-  express: ^4.17.1
-  helmet: ^3.21.2
+  express: ^4.16.4
+  helmet: ^3.21.1
